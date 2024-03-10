@@ -91,18 +91,24 @@ def chat():
 
 @app.route('/cards', methods=["GET",'POST'])
 def cards():
-    email = session.get("user_info")['email']
-    notes = list(notes_collection.find({'email': email}))
+    if "user_info" not in session:
+        return redirect(url_for("login"))
+    else:
+        email = session.get("user_info")['email']
+        notes = list(notes_collection.find({'email': email}))
     return render_template('cards.html', **locals())
 
 @app.route('/quiz', methods=["GET",'POST'])
 def quiz():
-    email = session.get("user_info")['email']
-    topics = quiz_collection.distinct("topic", {"email": f"{email}"})
-    quiz_data = quiz_collection.find({"email": f"{email}"})
-    quiz_data = list(quiz_data)
-    quiz_data = dumps(quiz_data)
-    quiz_data = json.loads(quiz_data)
+    if "user_info" not in session:
+        return redirect(url_for("login"))
+    else:
+        email = session.get("user_info")['email']
+        topics = quiz_collection.distinct("topic", {"email": f"{email}"})
+        quiz_data = quiz_collection.find({"email": f"{email}"})
+        quiz_data = list(quiz_data)
+        quiz_data = dumps(quiz_data)
+        quiz_data = json.loads(quiz_data)
     return render_template('quiz.html', topics=topics, quizzes=quiz_data)
 
 # Auth0 Authentication 
@@ -139,5 +145,15 @@ def logout():
         )
     )
 
+@app.route('/delete_note/<note_id>', methods=['POST'])
+def delete_note(note_id):
+    notes = db['notes']  # Connect to your notes collection
+    result = notes.delete_one({'_id': ObjectId(note_id)})  # Delete the note with the given id
+
+    if result.deleted_count == 1:
+        return {"success": True}, 200  # Return success status if the note was deleted
+    else:
+        return {"success": False}, 404  # Return failure status if no note was found with the given id
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='3000', debug=True)

@@ -1,11 +1,10 @@
-
 # Importing Libraries
 import google.generativeai as genai
 import json
 
 # Selecting the Gemini model and configuring the API key
 model = genai.GenerativeModel('gemini-pro')
-genai.configure(api_key='')
+genai.configure(api_key='AIzaSyCxHYxcENbPNzwzoBOlQa48orv09s2BXpM')
 
 # Sample data
 json_example_data = """
