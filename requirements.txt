@@ -4,3 +4,4 @@ python-jose
 requests
 authlib
 flask_pymongo
+taipy
