@@ -1,4 +1,3 @@
-# export API_KEY="AIzaSyCxHYxcENbPNzwzoBOlQa48orv09s2BXpM"
 import os
 import sys
 
