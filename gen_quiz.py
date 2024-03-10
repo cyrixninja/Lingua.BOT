@@ -4,7 +4,7 @@ import json
 
 # Selecting the Gemini model and configuring the API key
 model = genai.GenerativeModel('gemini-pro')
-genai.configure(api_key='AIzaSyCxHYxcENbPNzwzoBOlQa48orv09s2BXpM')
+genai.configure(api_key='')
 
 # Sample data
 json_example_data = """
