@@ -1,4 +1,6 @@
 flask
 pymongo
-taipy
-google-generativeai
+python-jose
+requests
+authlib
+flask_pymongo

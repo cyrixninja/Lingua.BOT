@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Lingua.BOT</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{{url_for('static', filename='assets/img/favicon.ico')}}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Ubuntu:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+<link rel="stylesheet" href="{{url_for('static', filename='assets/lib/animate/animate.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/lib/owlcarousel/assets/owl.carousel.min.css')}}">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+     body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+  #quizDiv {
+    width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  }
+
+  .question {
+    margin-bottom: 20px;
+  }
+
+  .question p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .question label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  #scoreDiv {
+    width: 60%;
+    margin: 20px auto;
+    text-align: center;
+    font-size: 24px;
+    color: #007BFF;
+  }
+  #quiz-select-div {
+    width: 40%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #quiz-select {
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23007BFF" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+  }
+</style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0">
+                <a href="{{url_for('index')}}" class="navbar-brand">
+                    <h1 class="text-white">Lingua<span class="text-dark">.</span>BOT</h1>
+                </a>
+                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="{{url_for('index')}}" class="nav-item nav-link">Home</a>
+                        <a href="{{url_for('chat')}}" class="nav-item nav-link">Chat</a>
+                        <a href="{{url_for('quiz')}}" class="nav-item nav-link active">Quiz</a>
+                        <a href="{{url_for('cards')}}" class="nav-item nav-link">Your Cards</a>
+                    </div>
+                    
+                        <a href="{{url_for('login')}}" class="btn btn-info" role="button">Login</a>
+
+                        <span style="margin: 0 10px;"></span>
+
+                        <a href="{{url_for('logout')}}" class="btn btn-warning" role="button">Logout</a>
+
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Hero Start -->
+    <div class="container-fluid pt-5 bg-primary hero-header">
+        <div class="container pt-5">
+            <div class="row g-5 pt-5">
+                <div class="col-lg-6 align-self-center text-center text-lg-start mb-lg-5">
+                    <h1 class="display-4 text-white mb-4 animated slideInRight">Attempt Language Quiz</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-start mb-0">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>                           
+                            <li class="breadcrumb-item text-white active" aria-current="page">Quiz</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6 align-self-end text-center text-lg-end">
+                    <img class="img-fluid" src="{{url_for('static', filename='assets/img/main.png')}}" alt="" style="max-height: 300px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+    <!-- Generate Quiz Start -->
+    <div class="container-fluid mt-4" style="margin-bottom: 40px;">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Generate Quiz</h2>
+                        <form action="{{url_for('genquiz')}}" method="post">
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <input type="text" class="form-control" id="language" name="language" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="difficulty">Difficulty</label>
+                                <input type="text" class="form-control" id="difficulty" name="difficulty" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Quiz</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Generate Quiz End -->
+
+    <!-- Quiz Start -->
+  <!-- Quizzes -->
+  <div class="container">
+    <h2 align="center">Choose Quiz</h2>
+  <select id="quiz-select" onchange="fetchQuizData()">
+    <option value="">Select a quiz</option>
+    {% for topic in topics %}
+    <option value="{{ topic }}">{{ topic }}</option>
+    {% endfor %}
+  </select>
+  <h2 align="center"> Quiz</h2>
+  <div id="quizDiv" class="card">
+    <div class="card-body">
+    </div>
+  </div>
+</div>
+    <!-- Quiz End -->
+    <script>
+ // var quizzes = [{"_id": "65eca4b4fd8077facae1c19c", "questions": [{"question": "How do you say hello in German?", "options": ["Guten Tag", "Hallo", "Tsch\u00fcss", "Danke"], "answer": "Hallo"}, {"question": "What is the German word for book ?", "options": ["Buch", "Auto", "Haus", "Hund"], "answer": "Buch"}, {"question": "How do you say thank you in German?", "options": ["Bitte", "Danke", "Entschuldigung", "Nein"], "answer": "Danke"}, {"question": "What is the German word for cat ?", "options": ["Katze", "Maus", "Hund", "Vogel"], "answer": "Katze"}, {"question": "How do you say my name is in German?", "options": ["Ich hei\u00dfe", "Mein Name ist", "Ich bin", "Ich habe"], "answer": "Ich hei\u00dfe"}, {"question": "What is the German word for red ?", "options": ["Rot", "Blau", "Gr\u00fcn", "Gelb"], "answer": "Rot"}, {"question": "How do you say good morning in German?", "options": ["Guten Morgen", "Guten Tag", "Guten Abend", "Gute Nacht"], "answer": "Guten Morgen"}, {"question": "What is the German word for dog ?", "options": ["Hund", "Katze", "Maus", "Vogel"], "answer": "Hund"}, {"question": "How do you say goodbye in German?", "options": ["Tsch\u00fcss", "Auf Wiedersehen", "Bis bald", "Ciao"], "answer": "Tsch\u00fcss"}, {"question": "What is the German word for green ?", "options": ["Gr\u00fcn", "Blau", "Rot", "Gelb"], "answer": "Gr\u00fcn"}], "email": "cyrixninja@gmail.com", "topic": "German Easy"}, {"_id": "65eca724ff5f2d93159c368a", "questions": [{"question": "How do you say hello in French?", "options": ["Bonjour", "Salut", "Au revoir", "Merci"], "answer": "Bonjour"}, {"question": "What is the French word for book ?", "options": ["Livre", "Voiture", "Maison", "Chien"], "answer": "Livre"}, {"question": "How do you say thank you in French?", "options": ["S'il vous pla\u00eet", "Merci", "Excusez-moi", "Non"], "answer": "Merci"}, {"question": "What is the French word for cat ?", "options": ["Chat", "Souris", "Chien", "Oiseau"], "answer": "Chat"}, {"question": "How do you say my name is in French?", "options": ["Je m'appelle", "Mon nom est", "Je suis", "J'ai"], "answer": "Je m'appelle"}, {"question": "What is the French word for red ?", "options": ["Rouge", "Bleu", "Vert", "Jaune"], "answer": "Rouge"}, {"question": "How do you say good morning in French?", "options": ["Bonjour", "Bonne journ\u00e9e", "Bonsoir", "Bonne nuit"], "answer": "Bonjour"}, {"question": "What is the French word for dog ?", "options": ["Chien", "Chat", "Souris", "Oiseau"], "answer": "Chien"}, {"question": "How do you say goodbye in French?", "options": ["Au revoir", "\u00c0 bient\u00f4t", "Ciao", "Salut"], "answer": "Au revoir"}, {"question": "What is the French word for green ?", "options": ["Vert", "Bleu", "Rouge", "Jaune"], "answer": "Vert"}], "email": "cyrixninja@gmail.com", "topic": "French Easy"}]
+var quizzes = JSON.parse('{{ quizzes | tojson | safe }}');
+var quizDiv = document.getElementById('quizDiv');
+var scoreDiv = document.createElement('div');
+scoreDiv.id = 'scoreDiv';
+document.body.appendChild(scoreDiv);
+var currentQuestionIndex = 0;
+var score = 0;
+
+// Function to fetch the selected quiz data
+function fetchQuizData() {
+  var select = document.getElementById('quiz-select');
+  var selectedQuiz = select.value;
+
+  // Find the selected quiz in the quizzes array
+  var quiz = quizzes.find(function(quiz) {
+    return quiz.topic === selectedQuiz;
+  });
+
+  // Clear the quiz div
+  while (quizDiv.firstChild) {
+    quizDiv.removeChild(quizDiv.firstChild);
+  }
+
+  // Add the questions and options to the quiz div
+  for (var i = 0; i < quiz.questions.length; i++) {
+    var questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+    questionDiv.style.display = 'none'; // Initially hide the question
+
+    // Add the question text
+    var questionText = document.createElement('p');
+    questionText.textContent = quiz.questions[i].question;
+    questionDiv.appendChild(questionText);
+
+    // Add the options
+    for (var j = 0; j < quiz.questions[i].options.length; j++) {
+      var optionLabel = document.createElement('label');
+      var optionInput = document.createElement('input');
+      optionInput.type = 'radio';
+      optionInput.name = 'quiz' + i;
+      optionInput.value = quiz.questions[i].options[j];
+      optionLabel.appendChild(optionInput);
+      optionLabel.appendChild(document.createTextNode(quiz.questions[i].options[j]));
+      questionDiv.appendChild(optionLabel);
+    }
+
+    quizDiv.appendChild(questionDiv);
+  }
+
+  // Add a submit button
+  var submitButton = document.createElement('button');
+  submitButton.textContent = 'Submit';
+  submitButton.onclick = handleSubmit;
+  quizDiv.appendChild(submitButton);
+
+  showQuestion(currentQuestionIndex); // Show the first question
+}
+
+// Call fetchQuizData when the selection changes
+document.getElementById('quiz-select').onchange = fetchQuizData;
+
+// Function to show a question
+function showQuestion(index) {
+  var questions = quizDiv.getElementsByClassName('question');
+  for (var i = 0; i < questions.length; i++) {
+    questions[i].style.display = 'none'; // Hide all questions
+  }
+  questions[index].style.display = 'block'; // Show the current question
+}
+
+// Function to handle the submit button click
+function handleSubmit() {
+  var select = document.getElementById('quiz-select');
+  var selectedQuiz = select.value;
+
+  // Find the selected quiz in the quizzes array
+  var quiz = quizzes.find(function(quiz) {
+    return quiz.topic === selectedQuiz;
+  });
+
+  var radios = document.getElementsByName('quiz' + currentQuestionIndex);
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].checked) {
+      var selectedOption = radios[i].value;
+      if (selectedOption === quiz.questions[currentQuestionIndex].answer) {
+        score++;
+      }
+    }
+  }
+  // Update the score div
+  scoreDiv.textContent = 'Your score is ' + score + '/' + (currentQuestionIndex + 1);
+  
+  currentQuestionIndex++;
+  if (currentQuestionIndex < quiz.questions.length) {
+    showQuestion(currentQuestionIndex); // Show the next question
+  } else {
+    // Show the final score
+    scoreDiv.textContent = 'Your final score is ' + score + '/' + quiz.questions.length;
+  }
+}
+
+// Function to fetch the selected quiz data
+function fetchQuizData() {
+  var select = document.getElementById('quiz-select');
+  var selectedQuiz = select.value;
+
+  // Find the selected quiz in the quizzes array
+  var quiz = quizzes.find(function(quiz) {
+    return quiz.topic === selectedQuiz;
+  });
+
+  // Clear the quiz div
+  while (quizDiv.firstChild) {
+    quizDiv.removeChild(quizDiv.firstChild);
+  }
+
+  // Add the questions and options to the quiz div
+  for (var i = 0; i < quiz.questions.length; i++) {
+    var questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+    questionDiv.style.display = 'none'; // Initially hide the question
+
+    // Add the question text
+    var questionText = document.createElement('p');
+    questionText.textContent = quiz.questions[i].question;
+    questionDiv.appendChild(questionText);
+
+    // Add the options
+    for (var j = 0; j < quiz.questions[i].options.length; j++) {
+      var optionLabel = document.createElement('label');
+      var optionInput = document.createElement('input');
+      optionInput.type = 'radio';
+      optionInput.name = 'quiz' + i;
+      optionInput.value = quiz.questions[i].options[j];
+      optionLabel.appendChild(optionInput);
+      optionLabel.appendChild(document.createTextNode(quiz.questions[i].options[j]));
+      questionDiv.appendChild(optionLabel);
+    }
+
+    quizDiv.appendChild(questionDiv);
+  }
+
+  // Add a submit button
+  var submitButton = document.createElement('button');
+  submitButton.textContent = 'Submit';
+  submitButton.onclick = handleSubmit;
+  quizDiv.appendChild(submitButton);
+
+  showQuestion(currentQuestionIndex); // Show the first question
+}
+
+// Call fetchQuizData when the selection changes
+document.getElementById('quiz-select').onchange = fetchQuizData;
+
+// Call fetchQuizData initially to load the first quiz
+fetchQuizData();
+        </script>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top pt-2"><i class="bi bi-arrow-up"></i></a>
+    <script>
+ 
+    </script>
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url_for('static', filename='assets/lib/wow/wow.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/easing/easing.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/waypoints/waypoints.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/counterup/counterup.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/js/main.js')}}"></script>
+
+        </body>
+
+</html>
