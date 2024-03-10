@@ -1,0 +1,83 @@
+body {
+    overflow: hidden;
+  }
+  
+  .ai_message td  {
+      margin-left: 30px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      position: relative;
+      display: inline-block;
+      padding: 20px;
+      background-color: #4e5fb9;
+      border-radius: 20px;
+      max-width: 80%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      font-size: large;
+  }
+  
+  .user_message td  {
+      margin-right: 30px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      position: relative;
+      display: inline-block;
+      padding: 20px;
+      background-color: #25a2c8;
+      border-radius: 20px;
+      max-width: 80%;
+      float: right;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      font-size: large;
+    }
+
+  .taipy-button:where(:not(.Mui-disabled)).plain {
+      background-color: var(--button-bg, #00abd3);
+      color: var(--button-color, white);
+    }
+    :root {
+      --element-padding: 1.5rem;
+    }
+    
+    #root > .MuiBox-root {
+      min-height: 100%;
+    }
+    main {
+      flex: 0 0 100%;
+    }
+    
+    /**** PASSED PROMPT LIST ****/
+    
+    .past_prompts_list .MuiPaper-root {
+      background-color: var(--color-background);
+    }
+    
+    .past_prompts_list li + li {
+      border-top: 1px solid var(--color-paper);
+    }
+    
+    .past_prompts_list .MuiTreeItem-content {
+      font-style: italic;
+      padding: var(--spacing-half);
+      user-select: text !important;
+      cursor: pointer;
+    }
+    .past_prompts_list .MuiTreeItem-iconContainer {
+      display: none;
+    }
+
+    :root {
+      --color-primary: #ff6049;
+      --color-secondary: #293ee7;
+      --color-error: #FF595E;
+      --color-warning: #FAA916;
+      --color-success: #96E6B3;
+      --color-background-light: #f0f5f7;
+      --color-paper-light: #ffffff;
+      --color-background-dark: #152335;
+      --color-paper-dark: #1f2f44;
+      --font-family: "Lato, Arial, sans-serif";
+      --root-margin: 1rem;
+      --border-radius: 8px;
+      --input-button-height: 48px;
+    }
